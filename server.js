@@ -83,7 +83,7 @@ app.post(
             id: user.id
           }
         };
-
+        //JWT Token
         jwt.sign(
           payload,
           config.get('jwtSecret'),
