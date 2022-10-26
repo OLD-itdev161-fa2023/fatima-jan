@@ -80,7 +80,7 @@ class App extends React.Component {
               <li>
                 {user ? 
                   <Link to="" onClick={this.logOut}>Log out</Link> :
-                  <Link to="/login">Log in</Link> 
+                  <Link to="/login">Login</Link> 
                 }
                 
               </li>
@@ -112,6 +112,7 @@ class App extends React.Component {
       </Router>
     );
   }
+
 }
 
 export default App;
