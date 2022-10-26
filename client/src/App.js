@@ -78,16 +78,21 @@ class App extends React.Component {
                 <Link to="/register">Register</Link>
               </li>
               <li>
+ activity-8
                 {user ? 
                   <Link to="" onClick={this.logOut}>Log out</Link> :
                   <Link to="/login">Login</Link> 
                 }
                 
+=======
+                <Link to="/login">Login</Link>
+ main
               </li>
             </ul>
           </header>
           <main>
             <Route exact path="/">
+ activity-8
               {user ? 
                 <React.Fragment>
                   <div>Hello {user}!</div>
@@ -106,6 +111,13 @@ class App extends React.Component {
               <Route 
                 exact path="/login" 
                 render={() => <Login {...authProps} />} />
+=======
+              {this.state.data}
+            </Route>
+            <Switch>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+ main
             </Switch>
           </main>
         </div>

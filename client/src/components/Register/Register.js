@@ -1,15 +1,23 @@
+activity-8
 import React, { useState } from 'react';
+
+import React, { useState } from 'react'
+ main
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
-
+ activity-8
 const Register = ({ authenticateUser }) => {
   let history = useHistory();
+
+const Register = () => {
+ main
   const [userData, setUserData] = useState({
     name: '',
     email: '',
     password: '',
     passwordConfirm: ''
   });
+activity-8
   const [errorData, setErrorData] = useState({ errors: null });
 
   const { name, email, password, passwordConfirm } = userData;
@@ -60,9 +68,50 @@ const Register = ({ authenticateUser }) => {
     }
   };
 
+
+  const { name, email, password, passwordConfirm } = userData;
+
+  const onChange = e => {
+    const { name, value } = e.target;
+    setUserData({
+      ...userData,
+      [name]: value
+    })
+  }
+
+  const register = async () => {
+    if (password !== passwordConfirm) {
+      console.log('Passwords do not match');
+    }
+    else {
+      const newUser = {
+        name: name,
+        email: email,
+        password: password
+      }
+
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+
+        const body = JSON.stringify(newUser);
+        const res = await axios.post('http://localhost:5000/api/users', body, config);
+        console.log(res.data);
+      } catch (error) {
+        console.error(error.response.data);
+        return;
+      }
+    }
+  }
+ main
+
   return (
     <div>
       <h2>Register</h2>
+ activity-8
       <div>
         <input
           type="text"
@@ -108,5 +157,45 @@ const Register = ({ authenticateUser }) => {
     </div>
   );
 };
+
+      <div>
+        <input 
+          type="text" 
+          placeholder="Name" 
+          name="name" 
+          value={name} 
+          onChange={e => onChange(e)} />
+      </div>
+      <div>
+        <input 
+          type="text" 
+          placeholder="Email" 
+          name="email" 
+          value={email} 
+          onChange={e => onChange(e)} />
+      </div>
+      <div>
+        <input 
+          type="text" 
+          placeholder="Password" 
+          name="password" 
+          value={password} 
+          onChange={e => onChange(e)} />
+      </div>
+      <div>
+        <input 
+          type="text" 
+          placeholder="Confirm Password" 
+          name="passwordConfirm" 
+          value={passwordConfirm} 
+          onChange={e => onChange(e)} />
+      </div>
+      <div>
+        <button onClick={() => register()}>Register</button> 
+      </div>
+    </div>
+  )
+}
+ main
 
 export default Register;
