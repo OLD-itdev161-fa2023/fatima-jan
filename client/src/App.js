@@ -7,7 +7,9 @@ import Login from './components/Login/Login';
 
 class App extends React.Component {
   state = {
-    data: null
+    data: null,
+    token: null,
+    user: null
   }
 
   componentDidMount() {
@@ -20,9 +22,49 @@ class App extends React.Component {
       .catch((error) => {
         console.error(`Error fetching data: ${error}`);
       })
+
+      this.authenticateUser();
+  }
+
+  authenticateUser = () => {
+    const token = localStorage.getItem('token');
+
+    if(!token) {
+      localStorage.removeItem('user')
+      this.setState({ user: null });
+    }
+
+    if (token) {
+      const config = {
+        headers: {
+          'x-auth-token': token
+        }
+      }
+      axios.get('http://localhost:5000/api/auth', config)
+        .then((response) => {
+          localStorage.setItem('user', response.data.name)
+          this.setState({ user: response.data.name })
+        })
+        .catch((error) => {
+          localStorage.removeItem('user');
+          this.setState({ user: null });
+          console.error(`Error logging in: ${error}`);
+        })
+    }
+  }
+
+  logOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.setState({ user: null, token: null });
   }
 
   render() {
+    let { user, data } = this.state;
+    const authProps = {
+      authenticateUser: this.authenticateUser
+    }
+
     return (
       <Router>
         <div className="App">
@@ -36,23 +78,53 @@ class App extends React.Component {
                 <Link to="/register">Register</Link>
               </li>
               <li>
+ activity-8
+                {user ? 
+                  <Link to="" onClick={this.logOut}>Log out</Link> :
+                  <Link to="/login">Login</Link> 
+                }
+                
+=======
                 <Link to="/login">Login</Link>
+ main
               </li>
             </ul>
           </header>
           <main>
             <Route exact path="/">
+ activity-8
+              {user ? 
+                <React.Fragment>
+                  <div>Hello {user}!</div>
+                  <div>{data}</div>
+                </React.Fragment> :
+                <React.Fragment>
+                  Please Register or Login
+                </React.Fragment>
+              }
+              
+            </Route>
+            <Switch>
+              <Route 
+                exact path="/register" 
+                render={() => <Register {...authProps} />} />
+              <Route 
+                exact path="/login" 
+                render={() => <Login {...authProps} />} />
+=======
               {this.state.data}
             </Route>
             <Switch>
               <Route exact path="/register" component={Register} />
               <Route exact path="/login" component={Login} />
+ main
             </Switch>
           </main>
         </div>
       </Router>
     );
   }
+
 }
 
 export default App;
