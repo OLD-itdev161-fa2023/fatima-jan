@@ -78,20 +78,20 @@ app.post(
         // Save to the db and return
         await user.save();
 
-         // Generate and return a JWT token
-         returnToken(user, res);
-        } catch (error) {
-          res.status(500).send('Server error');
-        }
+        // Generate and return a JWT token
+        returnToken(user, res);
+      } catch (error) {
+        res.status(500).send('Server error');
       }
     }
-  );
+  }
+);
 
 /**
  * @route GET api/auth
  * @desc Authorize user
  */
- app.get('/api/auth', auth, async (req, res) => {
+app.get('/api/auth', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     res.status(200).json(user);
@@ -104,7 +104,7 @@ app.post(
  * @route POST api/login
  * @desc Login user
  */
- app.post(
+app.post(
   '/api/login',
   [
     check('email', 'Please enter a valid email').isEmail(),
@@ -159,6 +159,7 @@ const returnToken = (user, res) => {
     }
   );
 };
+
 // Connection listener
 const port = 5000;
 app.listen(port, () => console.log(`Express server running on port ${port}`));
