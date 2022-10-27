@@ -107,7 +107,7 @@ app.post(
 
 /**
  * @route GET api/auth
- * @desc Authenticate user
+ * @desc Authorize user
  */
 app.get('/api/auth', auth, async (req, res) => {
   try {
@@ -116,7 +116,6 @@ app.get('/api/auth', auth, async (req, res) => {
   } catch (error) {
     res.status(500).send('Unknown server error');
   }
-  
 });
 
 /**
@@ -178,7 +177,6 @@ const returnToken = (user, res) => {
     }
   );
 };
-
 
 // Connection listener
 const port = 5000;
