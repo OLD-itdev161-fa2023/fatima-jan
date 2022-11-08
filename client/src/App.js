@@ -141,13 +141,11 @@ class App extends React.Component {
       posts: newPosts
     });
   };
-
   render() {
     let { user, posts, post, token } = this.state;
     const authProps = {
       authenticateUser: this.authenticateUser
     };
-
     return (
       <Router>
         <div className="App">
